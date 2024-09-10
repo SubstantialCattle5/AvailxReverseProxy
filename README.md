@@ -56,10 +56,9 @@ This will create a VirtualBox virtual machine, install necessary packages, downl
 
 Once the setup is complete, you can access the RPC and Prometheus endpoints:
 
-- **RPC**: `http://<your-host-ip>:<RPC_PORT>/api`
-- **Prometheus Metrics**: `http://<your-host-ip>:<PROMETHEUS_PORT>/metrics`
+- **RPC**: `http://<your-host-ip>/api`
+- **Prometheus Metrics**: `http://<your-host-ip>/metrics`
 
-By default, the RPC endpoint is exposed on port `9933` and the Prometheus metrics endpoint on port `9651`.
 
 ### 6. Modify Configuration
 
@@ -87,8 +86,8 @@ vagrant destroy
 
 The Nginx configuration sets up a reverse proxy to forward traffic to the Avail Client for RPC and Prometheus metrics:
 
-- RPC requests are proxied to `http://localhost:<RPC_PORT>/api`
-- Prometheus metrics requests are proxied to `http://localhost:<PROMETHEUS_PORT>/metrics`
+- RPC requests are proxied to `http://<provided-ip>/api`
+- Prometheus metrics requests are proxied to `http://<provided-ip>/metrics`
 
 The Nginx configuration is defined in the template file `nginx_avail.j2`.
 
