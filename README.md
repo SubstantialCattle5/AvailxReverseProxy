@@ -1,4 +1,4 @@
-# Avail ```markdown
+# Avail 
 Client Setup with Nginx Reverse Proxy
 
 This project sets up the Avail Client and configures Nginx as a reverse proxy for the Avail Client's RPC and Prometheus endpoints. The setup is automated using Vagrant and Ansible.
@@ -101,9 +101,4 @@ The default setup in this repository downloads the **Avail Client binary for Ubu
 - **Port conflicts**: Ensure the host machine ports specified in the environment variables are not in use by other processes.
 - **Vagrant issues**: If you encounter issues with Vagrant, run `vagrant destroy` and try `vagrant up` again.
 - **Ansible errors**: Check the Ansible output to see if there are any missing packages or permissions issues.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-```
 
