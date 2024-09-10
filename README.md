@@ -1,5 +1,3 @@
-Got it! Here's the revised version of the `README.md` with a disclaimer for the Ubuntu x86 download link:
-
 ```markdown
 # Avail Client Setup with Nginx Reverse Proxy
 
