@@ -56,8 +56,8 @@ This will create a VirtualBox virtual machine, install necessary packages, downl
 
 Once the setup is complete, you can access the RPC and Prometheus endpoints:
 
-- **RPC**: `http://<your-host-ip>/api`
-- **Prometheus Metrics**: `http://<your-host-ip>/metrics`
+- **RPC**: `http://<user-selected-ip>/api`
+- **Prometheus Metrics**: `http://<user-selected-ip>/metrics`
 
 
 ### 6. Modify Configuration
