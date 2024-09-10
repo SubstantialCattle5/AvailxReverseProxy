@@ -1,0 +1,70 @@
+- name: Setup Avail Client with Reverse Proxy using Nginx
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Update and install pckgs
+      apt:
+        update_cache: yes
+        name:
+          - curl
+          - wget
+          - gnupg
+          - software-properties-common
+          - nginx
+        state: present
+
+    # <--------------AVAIL SECTION-------------------->
+
+    #! TODO : FIGURE OUT HOW THIS DIFFERENT CONFIG WILL PLAY OUT
+    - name: Download Avail Client binary for Ubuntu 22.04 (Intel x86_64)
+      shell: |
+        curl -L -O https://github.com/availproject/avail/releases/download/v2.2.4.1/x86_64-ubuntu-2204-avail-node.tar.gz
+      args:
+        chdir: /tmp
+
+    - name: Extract binary
+      shell: |
+        tar -xzvf x86_64-ubuntu-2204-avail-node.tar.gz
+      args:
+        chdir: /tmp
+
+    - name: Move binary to /usr/local/bin
+      shell: |
+        mv /tmp/avail-node /usr/local/bin/
+        chmod +x /usr/local/bin/avail-node
+
+    - name: Create directory for Avail data
+      file:
+        path: /var/lib/avail
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Running with user-defined ports
+      shell: |
+        nohup /usr/local/bin/avail-node --name {{ avail_node_name }} --rpc-port {{ avail_rpc_port }} --prometheus-port {{ avail_prometheus_port }} --rpc-cors "*" --chain mainnet -d /var/lib/avail &>/dev/null &
+      args:
+        chdir: /usr/local/bin
+
+    # <--------------NGINX SECTION-------------------->
+    - name: Configure Nginx as a reverse proxy 
+      template:
+        src: nginx_avail.j2
+        dest: /etc/nginx/sites-available/avail
+
+    - name: Enable Nginx site configuration
+      file:
+        src: /etc/nginx/sites-available/avail
+        dest: /etc/nginx/sites-enabled/avail
+        state: link
+        force: yes
+
+    - name: Test Nginx configuration
+      command: nginx -t
+
+    - name: Restart Nginx to apply new configuration
+      service:
+        name: nginx
+        state: restarted
